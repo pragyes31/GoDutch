@@ -7,7 +7,6 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 
-
 class AddFriend extends React.Component {
     constructor(props) {
       super(props);
