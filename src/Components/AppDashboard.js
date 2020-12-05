@@ -13,44 +13,12 @@ import ThreeDotsPopover from './ThreeDotsPopover'
 import WrongInput from './WrongInput'
 
 
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Popover from "@material-ui/core/Popover";
-import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import CropFreeIcon from "@material-ui/icons/CropFree";
-import EditIcon from "@material-ui/icons/Edit";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import HomeIcon from "@material-ui/icons/Home";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import MailIcon from "@material-ui/icons/Mail";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
-import RateReviewIcon from "@material-ui/icons/RateReview";
-import SettingsIcon from "@material-ui/icons/Settings";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import MuiPhoneNumber from "material-ui-phone-number";
-
-
-function ActivityTab() {
-  return <div>You are inside Activity tab.</div>;
-}
 
 const addButtonStyles = {
   button: {
@@ -361,8 +329,6 @@ export default class AppDashboard extends React.Component {
           openActivity={this.state.openActivity}
           friendsList={this.state.friendsList}
         />
-        {this.state.openGroups && <GroupsTab tabName="groups" />}
-        {this.state.openActivity && <ActivityTab />}
         <AddButton
           addExpense={this.addExpense}
           color="secondary"
