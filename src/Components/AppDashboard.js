@@ -12,6 +12,7 @@ import OptionsDialog from './OptionsDialog'
 import ThreeDotsPopover from './ThreeDotsPopover'
 import WrongInput from './WrongInput'
 
+import firebase from '../firebase/firebase'
 
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -272,6 +273,11 @@ export default class AppDashboard extends React.Component {
       },
       () => this.clearFriendsToAdd
     );
+firebase.database().ref().push({
+  name:"First",
+  email: "first@test.com"
+})
+firebase.database().ref().remove();
   };
 
   clearFriendsToAdd = () => {
@@ -420,3 +426,7 @@ export default class AppDashboard extends React.Component {
     );
   }
 }
+
+firebase.database().ref().set({
+  randomNum:Math.random()
+});

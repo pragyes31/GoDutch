@@ -12,6 +12,8 @@ const firebaseConfig = {
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-firebase.database().ref().set({
-    name:"Rahul Nayak"
-})
+// firebase.database().ref('friends').set({
+//   name:"Kal"
+// });
+
+export default firebase
