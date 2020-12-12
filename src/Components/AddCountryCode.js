@@ -35,6 +35,7 @@ const addCountryCodeStyles = {
     }
     handlePhoneNumber = (number, countryObj) => {
       const { currentFriend } = this.state;
+      console.log(number)
       this.setState({
         tempNumber: number,
         currentFriend: {

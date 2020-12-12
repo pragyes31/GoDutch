@@ -106,13 +106,14 @@ class EditFriendDetails extends React.Component {
       });
     };
   
-    handleNumber = (e, countryObj) => {
+    handlePhoneNumber = (num, countryObj) => {
       const { friendToEdit } = this.state;
+      let number = num.toString().replace(`+${countryObj.dialCode} `, "")
       this.setState({
         friendToEdit: {
           ...friendToEdit,
           number: {
-            number: e.target.value,
+            number,
             country: countryObj.countryCode,
             dialCode: countryObj.dialCode
           }
@@ -129,6 +130,7 @@ class EditFriendDetails extends React.Component {
         (!!email && emailRegex.test(email)) ||
         (!!number.number && numberRegex.test(number.number))
       ) {
+        console.log(friendToEdit)
         this.props.handleEditedFriend(friendToEdit);
       } else {
         this.props.toggleWrongInput();

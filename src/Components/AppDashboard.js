@@ -156,7 +156,7 @@ export default class AppDashboard extends React.Component {
       this.setState({
         currentFriend: {
           ...this.state.currentFriend,
-          number: { country: "IN", number: currentFriendInput },
+          number: { country: "IN", number: currentFriendInput, dialCode: "+91"},
           key: dateForKey
         },
         addDetailsDialog: !this.state.addDetailsDialog
@@ -264,25 +264,26 @@ export default class AppDashboard extends React.Component {
   };
 
   handleAddFriends = () => {
+    let friendsToAdd = [...this.state.friendsList, ...this.state.friendsToAdd]
     this.setState(
       prevState => {
         return this.setState({
           confirmFriendsDialog: !this.state.confirmFriendsDialog,
-          friendsList: [...this.state.friendsList, ...this.state.friendsToAdd]
+          friendsList: friendsToAdd,
+          friendsToAdd:[]
         });
-      },
-      () => this.clearFriendsToAdd
+      }
     );
-firebase.database().ref().push({
-  name:"First",
-  email: "first@test.com"
-})
-firebase.database().ref().remove();
+    this.addFriendsToDb(friendsToAdd);
   };
 
-  clearFriendsToAdd = () => {
-    this.setState({ friendsToAdd: [] });
-  };
+  addFriendsToDb = (friendsList) => {
+    friendsList.forEach((friend) => {
+      firebase.database().ref('friendsList').push({
+...friend
+      })
+    })
+  }
 
   handleEditedFriend = editedFriend => {
     let filteredFriends = this.state.friendsToAdd.filter(
@@ -426,7 +427,3 @@ firebase.database().ref().remove();
     );
   }
 }
-
-firebase.database().ref().set({
-  randomNum:Math.random()
-});
