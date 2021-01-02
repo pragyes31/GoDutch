@@ -274,8 +274,11 @@ export default class AppDashboard extends React.Component {
         });
       }
     );
-    this.addFriendsToDb(this.state.friendsToAdd);
   };
+
+  componentDidUpdate() {
+    this.addFriendsToDb(this.state.friendsToAdd);
+  }
 
   addFriendsToDb = (friendsList) => {
     friendsList.forEach((friend) => {
