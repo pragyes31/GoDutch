@@ -274,7 +274,7 @@ export default class AppDashboard extends React.Component {
         });
       }
     );
-    this.addFriendsToDb(this.state.friendsToAdd); 
+    this.addFriendsToDb(this.state.friendsToAdd)
   };
 
   componentDidUpdate() {
