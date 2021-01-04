@@ -277,9 +277,6 @@ export default class AppDashboard extends React.Component {
     this.addFriendsToDb(this.state.friendsToAdd)
   };
 
-  componentDidUpdate() {
-  }
-
   addFriendsToDb = (friendsList) => {
     friendsList.forEach((friend) => {
       firebase.database().ref('friendsList').push({

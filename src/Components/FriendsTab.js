@@ -50,16 +50,18 @@ class FriendsTab extends React.Component {
   componentDidMount() {
     let friendsList = [];
     firebase.database().ref("friendsList")
-    .once('value')
-    .then((snapshot) => {
+    .on('value', (snapshot) => {
+      friendsList=[]
       snapshot.forEach((childSnapshot) => {
         friendsList.push({
           ...childSnapshot.val(),
           id:childSnapshot.key
         })
       })
-      this.setState({friendsList})
-    }) 
+      this.setState({friendsList}) 
+    })   
+
+    
   }
   toggleDialog = () =>
     this.setState({ filterDialog: !this.state.filterDialog });
