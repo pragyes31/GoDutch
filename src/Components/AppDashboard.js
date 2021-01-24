@@ -1,18 +1,19 @@
 import React from "react";
 
-import AddCountryCode from './AddCountryCode'
-import AddFriend from './AddFriend'
-import AddDetails from './AddDetails'
-import AddMoreFriends from './AddMoreFriends'
-import ConfirmFriends from './ConfirmFriends'
-import EditFriendDetails from './EditFriendDetails'
-import Header from './Header'
-import NavBar from './NavBar'
-import OptionsDialog from './OptionsDialog'
-import ThreeDotsPopover from './ThreeDotsPopover'
-import WrongInput from './WrongInput'
+import AddCountryCode from "./AddCountryCode";
+import AddFriend from "./AddFriend";
+import AddDetails from "./AddDetails";
+import AddExpense from "./AddExpense";
+import AddMoreFriends from "./AddMoreFriends";
+import ConfirmFriends from "./ConfirmFriends";
+import EditFriendDetails from "./EditFriendDetails";
+import Header from "./Header";
+import NavBar from "./NavBar";
+import OptionsDialog from "./OptionsDialog";
+import ThreeDotsPopover from "./ThreeDotsPopover";
+import WrongInput from "./WrongInput";
 
-import firebase from '../firebase/firebase'
+import firebase from "../firebase/firebase";
 
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -20,8 +21,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import { withStyles } from "@material-ui/core/styles";
 
-
-const addButtonStyles = {
+const addExpenseButtonStyles = {
   button: {
     marginLeft: ".5rem",
     minWidth: "50px",
@@ -31,22 +31,27 @@ const addButtonStyles = {
     cursor: "pointer",
     position: "fixed",
     bottom: "5%",
-    right: "5%"
-  }
+    right: "5%",
+  },
 };
 
-function AddButtonComp(props) {
-  const { classes } = props;
+function AddExpenseButtonComp(props) {
+  const { classes, toggleAddExpenseDialog } = props;
   return (
     <div>
       <Tooltip title={props.tooltip}>
-        <AddCircleIcon className={classes.button} />
+        <AddCircleIcon
+          onClick={toggleAddExpenseDialog}
+          className={classes.button}
+        />
       </Tooltip>
     </div>
   );
 }
 
-const AddButton = withStyles(addButtonStyles)(AddButtonComp);
+const AddExpenseButton = withStyles(addExpenseButtonStyles)(
+  AddExpenseButtonComp
+);
 
 export default class AppDashboard extends React.Component {
   constructor(props) {
@@ -61,6 +66,7 @@ export default class AppDashboard extends React.Component {
       confirmFriendsDialog: false,
       addCountryCode: false,
       editFriendDetailsDialog: false,
+      addExpenseDialog: false,
 
       anchorEl: false,
 
@@ -70,44 +76,44 @@ export default class AppDashboard extends React.Component {
         name: "",
         number: { country: "IN", number: "", dialCode: "91" },
         email: "",
-        key: ""
+        key: "",
       },
       friendsToAdd: [],
       editFriendDetails: {
         name: "",
         number: { country: "IN", number: "", dialCode: "91" },
         email: "",
-        key: ""
+        key: "",
       },
       friendsList: [],
 
       openFriends: true,
       openGroups: false,
-      openActivity: false
+      openActivity: false,
     };
   }
 
   handle3DotsClose = () => {
     this.setState({
       anchorEl: false,
-      threeDotsDialog: !this.state.threeDotsDialog
+      threeDotsDialog: !this.state.threeDotsDialog,
     });
   };
 
   toggleOptionsDialog = () =>
     this.setState({ optionsDialog: !this.state.optionsDialog });
 
-  toggle3DotsDialog = event => {
+  toggle3DotsDialog = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
-      threeDotsDialog: !this.state.threeDotsDialog
+      threeDotsDialog: !this.state.threeDotsDialog,
     });
   };
 
   toggleThreeDots = () => {
     this.setState({
       addFriendDialog: !this.state.addFriendDialog,
-      threeDotsDialog: !this.state.threeDotsDialog
+      threeDotsDialog: !this.state.threeDotsDialog,
     });
   };
 
@@ -129,9 +135,9 @@ export default class AppDashboard extends React.Component {
         name: "",
         number: { country: "IN", number: "" },
         email: "",
-        key: ""
+        key: "",
       },
-      friendsToAdd: []
+      friendsToAdd: [],
     });
   };
 
@@ -148,7 +154,7 @@ export default class AppDashboard extends React.Component {
         break;
       case "AddMoreFriends":
         this.setState({
-          addMoreFriendsDialog: !this.state.addMoreFriendsDialog
+          addMoreFriendsDialog: !this.state.addMoreFriendsDialog,
         });
         break;
     }
@@ -156,28 +162,32 @@ export default class AppDashboard extends React.Component {
       this.setState({
         currentFriend: {
           ...this.state.currentFriend,
-          number: { country: "IN", number: currentFriendInput, dialCode: "+91"},
-          key: dateForKey
+          number: {
+            country: "IN",
+            number: currentFriendInput,
+            dialCode: "+91",
+          },
+          key: dateForKey,
         },
-        addDetailsDialog: !this.state.addDetailsDialog
+        addDetailsDialog: !this.state.addDetailsDialog,
       });
     } else if (isEmail) {
       this.setState({
         currentFriend: {
           ...this.state.currentFriend,
           email: currentFriendInput,
-          key: dateForKey
+          key: dateForKey,
         },
-        addDetailsDialog: !this.state.addDetailsDialog
+        addDetailsDialog: !this.state.addDetailsDialog,
       });
     } else {
       this.setState({
         currentFriend: {
           ...this.state.currentFriend,
           key: dateForKey,
-          name: currentFriendInput
+          name: currentFriendInput,
         },
-        addDetailsDialog: !this.state.addDetailsDialog
+        addDetailsDialog: !this.state.addDetailsDialog,
       });
     }
   };
@@ -185,38 +195,42 @@ export default class AppDashboard extends React.Component {
   toggleWrongInput = () =>
     this.setState({ wrongInputDialog: !this.state.wrongInputDialog });
 
-  toggleAddMoreFriends = currentFriend =>
+  toggleAddMoreFriends = (currentFriend) =>
     this.setState({
       addMoreFriendsDialog: !this.state.addMoreFriendsDialog,
-      friendsToAdd: []
+      friendsToAdd: [],
     });
 
-  handleAddMoreFriends = currentFriend =>
+  toggleAddExpenseDialog = () => {
+    this.setState({ addExpenseDialog: !this.state.addExpenseDialog });
+  };
+
+  handleAddMoreFriends = (currentFriend) =>
     this.setState({
       addMoreFriendsDialog: !this.state.addMoreFriendsDialog,
       addDetailsDialog: !this.state.addDetailsDialog,
-      friendsToAdd: [...this.state.friendsToAdd, currentFriend]
+      friendsToAdd: [...this.state.friendsToAdd, currentFriend],
     });
 
-  openAddMoreDetails = currentFriend => {
+  openAddMoreDetails = (currentFriend) => {
     this.setState({
       addMoreFriendsDialog: !this.state.addMoreFriendsDialog,
       addDetailsDialog: !this.state.addDetailsDialog,
       addCountryCode: !this.state.addCountryCode,
-      friendsToAdd: [...this.state.friendsToAdd, currentFriend]
+      friendsToAdd: [...this.state.friendsToAdd, currentFriend],
     });
   };
 
   toggleFriendsToAdd = () => {
     this.setState({
       addMoreFriendsDialog: !this.state.addMoreFriendsDialog,
-      friendsToAdd: []
+      friendsToAdd: [],
     });
   };
 
-  handleRemoveUser = friendKey => {
+  handleRemoveUser = (friendKey) => {
     let friendsToAdd = this.state.friendsToAdd.filter(
-      friend => friend.key !== friendKey
+      (friend) => friend.key !== friendKey
     );
     this.setState({ friendsToAdd });
   };
@@ -224,98 +238,99 @@ export default class AppDashboard extends React.Component {
   toggleConfirmFriends = () => {
     this.setState({
       confirmFriendsDialog: !this.state.confirmFriendsDialog,
-      addMoreFriendsDialog: !this.state.addMoreFriendsDialog
+      addMoreFriendsDialog: !this.state.addMoreFriendsDialog,
     });
   };
 
-  addCountryCode = currentFriend => {
+  addCountryCode = (currentFriend) => {
     this.setState({
       addCountryCode: !this.state.addCountryCode,
-      currentFriend
+      currentFriend,
     });
   };
 
-  confirmRemoveFriend = key => {
+  confirmRemoveFriend = (key) => {
     this.setState({ confirmRemoveFriend: !this.state.confirmRemoveFriend });
   };
 
-  editFriendDetails = key => {
+  editFriendDetails = (key) => {
     let friendToEdit = this.state.friendsToAdd.filter(
-      friend => friend.key === key
+      (friend) => friend.key === key
     );
 
     this.setState({
       editFriendDetails: { ...friendToEdit[0] },
-      editFriendDetailsDialog: !this.state.editFriendDetailsDialog
+      editFriendDetailsDialog: !this.state.editFriendDetailsDialog,
     });
   };
 
   toggleEditFriendDetailsDialog = () => {
     this.setState({
-      editFriendDetailsDialog: !this.state.editFriendDetailsDialog
+      editFriendDetailsDialog: !this.state.editFriendDetailsDialog,
     });
   };
 
   toggleConfirmFriendsDialog = () => {
     this.setState({
       confirmFriendsDialog: !this.state.confirmFriendsDialog,
-      friendsToAdd: []
+      friendsToAdd: [],
     });
   };
 
   handleAddFriends = () => {
-    let friendsToAdd = [...this.state.friendsList, ...this.state.friendsToAdd]
-    this.setState(
-      prevState => {
-        return this.setState({
-          confirmFriendsDialog: !this.state.confirmFriendsDialog,
-          friendsList: friendsToAdd,
-          friendsToAdd:[]
-        });
-      }
-    );
-    this.addFriendsToDb(this.state.friendsToAdd)
+    let friendsToAdd = [...this.state.friendsList, ...this.state.friendsToAdd];
+    this.setState((prevState) => {
+      return this.setState({
+        confirmFriendsDialog: !this.state.confirmFriendsDialog,
+        friendsList: friendsToAdd,
+        friendsToAdd: [],
+      });
+    });
+    this.addFriendsToDb(this.state.friendsToAdd);
   };
 
   addFriendsToDb = (friendsList) => {
     friendsList.forEach((friend) => {
-      firebase.database().ref('friendsList').push({
-...friend
-      })
-    })
-  }
-
-  handleEditedFriend = editedFriend => {
-    let filteredFriends = this.state.friendsToAdd.filter(
-      friend => friend.key !== editedFriend.key
-    );
-    this.setState({
-      friendsToAdd: [...filteredFriends, editedFriend],
-      editFriendDetailsDialog: !this.state.editFriendDetailsDialog
+      firebase
+        .database()
+        .ref("friendsList")
+        .push({
+          ...friend,
+        });
     });
   };
 
-  switchTab = tabName => {
+  handleEditedFriend = (editedFriend) => {
+    let filteredFriends = this.state.friendsToAdd.filter(
+      (friend) => friend.key !== editedFriend.key
+    );
+    this.setState({
+      friendsToAdd: [...filteredFriends, editedFriend],
+      editFriendDetailsDialog: !this.state.editFriendDetailsDialog,
+    });
+  };
+
+  switchTab = (tabName) => {
     switch (tabName) {
       case "friendsTab":
         this.setState({
           openFriends: true,
           openGroups: false,
-          openActivity: false
+          openActivity: false,
         });
         break;
       case "groupsTab":
         this.setState({
           openFriends: false,
           openGroups: true,
-          openActivity: false
+          openActivity: false,
         });
         break;
       case "activityTab":
         this.setState({
           openFriends: false,
           openGroups: false,
-          openActivity: true
+          openActivity: true,
         });
         break;
     }
@@ -336,10 +351,11 @@ export default class AppDashboard extends React.Component {
           openActivity={this.state.openActivity}
           friendsList={this.state.friendsList}
         />
-        <AddButton
+        <AddExpenseButton
           addExpense={this.addExpense}
           color="secondary"
           tooltip="Add Expense"
+          toggleAddExpenseDialog={this.toggleAddExpenseDialog}
         />
         {this.state.optionsDialog && (
           <OptionsDialog
@@ -423,7 +439,12 @@ export default class AppDashboard extends React.Component {
             handleEditedFriend={this.handleEditedFriend}
           />
         )}
+        <AddExpense
+          addExpenseDialog={this.state.addExpenseDialog}
+          toggleAddExpenseDialog={this.toggleAddExpenseDialog}
+        />
       </div>
     );
   }
 }
+  

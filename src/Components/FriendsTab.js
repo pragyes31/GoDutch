@@ -4,6 +4,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import UserBalance from './UserBalance'
 import FilterDialog from './FilterDialog'
+import FriendsList from './FriendsList'
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 import firebase from '../firebase/firebase'
@@ -32,9 +33,10 @@ const friendsTabStyles = {
     justifyContent: "center",
     alignItems: "center"
   },
-  friendsDashboard: {
+  friendsList: {
     backgroundColor: "#fff",
-    color: "#000"
+    color: "#000",
+    padding:"1rem"
   }
 };
 
@@ -59,9 +61,7 @@ class FriendsTab extends React.Component {
         })
       })
       this.setState({friendsList}) 
-    })   
-
-    
+    })    
   }
   toggleDialog = () =>
     this.setState({ filterDialog: !this.state.filterDialog });
@@ -87,7 +87,10 @@ class FriendsTab extends React.Component {
             )}
           </div>
         </div>
-        <div className={classes.friendsDashboard}>
+        <div className={classes.friendsList}>
+          <FriendsList friendsList={this.state.friendsList}/>
+        </div>
+        {/* <div className={classes.friends}>
           {friendsList.map(friend => {
             return (
               <div>
@@ -95,7 +98,7 @@ class FriendsTab extends React.Component {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
     );
   }
