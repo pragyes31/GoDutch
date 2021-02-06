@@ -44,15 +44,17 @@ class FriendsInDashboard extends React.Component {
         
       <div className={classes.friendSummary}>
           {friendsList.map((friend) => {
-              return (
-                <div className={classes.friend}>
-                <div className={classes.left}>
-                  <div className={classes.avatar} />
-                  <div className={classes.FriendName}>{friend.name}</div>
+              if(friend.balance) {
+                return (
+                  <div className={classes.friend}>
+                  <div className={classes.left}>
+                    <div className={classes.avatar} />
+                    <div className={classes.FriendName}>{friend.name}</div>
+                  </div>
+                  <div className={classes.right}>{friend.balance}</div>
                 </div>
-                <div className={classes.right}>Settled up</div>
-              </div>
-              )
+                )
+              }
           })}
       </div>
     );

@@ -3,9 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 
 const whoPaidDialogStyles = {
-  whoPaidDialog: {
-
-  },
+  whoPaidDialog: {},
   dialog: {
     width: "300px",
     height: "300px",
@@ -13,16 +11,15 @@ const whoPaidDialogStyles = {
   },
   title: {
     flexGrow: 1,
-    justifyContent :"center"
-
+    justifyContent: "center",
   },
   option: {
     cursor: "pointer",
-    justifyContent :"center",
+    justifyContent: "center",
     flexGrow: 1,
     "&:hover": {
-      backgroundColor:"#C9C9C9"
-    }
+      backgroundColor: "#C9C9C9",
+    },
   },
 };
 
@@ -32,7 +29,13 @@ class WhoPaidDialog extends React.Component {
     this.state = {};
   }
   render() {
-    const { classes, whoPaidDialog, toggleWhoPaidDialog } = this.props;
+    const {
+      classes,
+      whoPaidDialog,
+      toggleWhoPaidDialog,
+      contributors,
+      expenseAmount
+    } = this.props;
     return (
       <div className={classes.whoPaidDialog}>
         <Dialog
@@ -44,13 +47,42 @@ class WhoPaidDialog extends React.Component {
           classes={{ paper: classes.dialog }}
         >
           <div className={classes.title}>How was this expense split?</div>
-          <div className={classes.option} onClick={() => this.props.handlePayee("youPaidSplitEqual")}>Paid by you and split equally</div>
-          <div className={classes.option} onClick={() => this.props.handlePayee("youOwnFull")}>You owe the full amount</div>
-          <div className={classes.option} onClick={() => this.props.handlePayee("theyOweFull")}>They owe the full amount</div>
-          <div className={classes.option} onClick={() => this.props.handlePayee("theyPaidSplitEqual")}>
-            Paid by the other person and split equallys
+          <div
+            className={classes.option}
+            onClick={() => this.props.handlePayment("youPaidSplitEqual")}
+          >
+            Paid by you and split equally
           </div>
-          <div className={classes.option} onClick={() => this.props.handlePayee("moreOptions")}>More options</div>
+          <div
+            className={classes.option}
+            onClick={() => this.props.handlePayment("youOweFull")}
+          >
+            {expenseAmount
+              ? `You owe ${contributors[0].name} INR ${expenseAmount}`
+              : "You owe the full amount"}
+          </div>
+          <div
+            className={classes.option}
+            onClick={() => this.props.handlePayment("theyOweFull")}
+          >
+            {expenseAmount
+              ? `${contributors[0].name} owes you INR ${expenseAmount}`
+              : "They owe the full amount"}</div>
+          <div
+            className={classes.option}
+            onClick={() => this.props.handlePayment("theyPaidSplitEqual")}
+          >
+                        {expenseAmount
+              ? `Paid by ${contributors[0].name} and split equally`
+              : "Paid by the other person and split equally"}
+            
+          </div>
+          <div
+            className={classes.option}
+            onClick={() => this.props.handlePayment("moreOptions")}
+          >
+            More options
+          </div>
         </Dialog>
       </div>
     );

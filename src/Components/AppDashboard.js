@@ -77,6 +77,7 @@ export default class AppDashboard extends React.Component {
         number: { country: "IN", number: "", dialCode: "91" },
         email: "",
         key: "",
+        balance:""
       },
       friendsToAdd: [],
       editFriendDetails: {
@@ -84,6 +85,7 @@ export default class AppDashboard extends React.Component {
         number: { country: "IN", number: "", dialCode: "91" },
         email: "",
         key: "",
+        balance:""
       },
       friendsList: [],
 
