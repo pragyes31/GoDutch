@@ -11,6 +11,7 @@ import ReceiptIcon from "@material-ui/icons/Receipt";
 import WhoPaidDialog from "./WhoPaidDialog";
 import ChoosePayer from "./ChoosePayer";
 import AmountPaidByPerPerson from "./AmountPaidByPerPerson";
+import PerPersonShareDialog from "./PerPersonShareDialog";
 
 import firebase from "../firebase/firebase";
 
@@ -111,6 +112,7 @@ class AddExpense extends React.Component {
       whoPaidDialog: false,
       choosePayerDialog: false,
       AmountPaidByPerPersonDialog: false,
+      perPersonShareDialog: false,
 
       friendsList: [],
       singlePayerName: "You",
@@ -158,6 +160,15 @@ class AddExpense extends React.Component {
   };
   toggleWhoPaidDialog = () => {
     this.setState({ whoPaidDialog: !this.state.whoPaidDialog });
+  };
+  toggleAmountPaidByPerPerson = () => {
+    this.setState({
+      choosePayerDialog: !this.state.choosePayerDialog,
+      AmountPaidByPerPersonDialog: !this.state.AmountPaidByPerPersonDialog,
+    });
+  };
+  togglePerPersonShareDialog = () => {
+    this.setState({ perPersonShareDialog: !this.state.perPersonShareDialog });
   };
   handleContributors = (e, users) => {
     let contributors = users.map((user) => {
@@ -241,6 +252,9 @@ class AddExpense extends React.Component {
     const {
       friendsList,
       whoPaidDialog,
+      choosePayerDialog,
+      AmountPaidByPerPersonDialog,
+      perPersonShareDialog,
       currentExpense,
       moreOptions,
       currentExpense: { expenseAmount, contributors },
@@ -324,14 +338,14 @@ class AddExpense extends React.Component {
                       : `${this.state.singlePayerName}`}
                   </span>
                   and split
-                  <span className={classes.splitType}>EQUALLY</span>
+                  <span className={classes.splitType} onClick={this.togglePerPersonShareDialog}>EQUALLY</span>
                 </div>
               </div>
             </div>
           </form>
         </Dialog>
 
-        {this.state.whoPaidDialog && (
+        {whoPaidDialog && (
           <WhoPaidDialog
             whoPaidDialog={whoPaidDialog}
             handlePayment={this.handlePayment}
@@ -340,22 +354,29 @@ class AddExpense extends React.Component {
             expenseAmount={expenseAmount}
           />
         )}
-        {this.state.choosePayerDialog && (
+        {choosePayerDialog && (
           <ChoosePayer
             toggleChoosePayerDialog={this.toggleChoosePayerDialog}
-            choosePayerDialog={this.state.choosePayerDialog}
+            choosePayerDialog={choosePayerDialog}
             contributors={contributors}
             handlePayer={this.handlePayer}
             handleMultiplePeople={this.handleMultiplePeople}
           />
         )}
-        {this.state.AmountPaidByPerPersonDialog && (
+        {AmountPaidByPerPersonDialog && (
           <AmountPaidByPerPerson
-            AmountPaidByPerPersonDialog={this.state.AmountPaidByPerPersonDialog}
+            AmountPaidByPerPersonDialog={AmountPaidByPerPersonDialog}
             toggleAmountPaidByPerPerson={this.toggleAmountPaidByPerPerson}
             contributors={contributors}
             handleExpensePaidShare={this.handleExpensePaidShare}
             expenseAmount={expenseAmount}
+          />
+        )}
+        {perPersonShareDialog && (
+          <PerPersonShareDialog
+            perPersonShareDialog={perPersonShareDialog}
+            togglePerPersonShareDialog={this.togglePerPersonShareDialog}
+            contributors={contributors}
           />
         )}
       </div>
