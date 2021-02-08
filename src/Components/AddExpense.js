@@ -186,7 +186,7 @@ class AddExpense extends React.Component {
         contributors: [
           {
             name: "You",
-            id: 1,
+            id: "abcd",
             amountPaid: 0,
             expenseShare: 0,
             amountUserOwes: 0,

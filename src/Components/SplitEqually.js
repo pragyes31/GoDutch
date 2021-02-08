@@ -25,35 +25,49 @@ const splitEquallyStyles = {
 class SplitEqually extends React.Component {
   constructor(props) {
     super(props);
+    let checked = this.props.contributors.map((contributor) => contributor.id)
     this.state = {
       checkedContributors: this.props.contributors,
+      checkedId: checked,
     };
   }
   handleChange = (e, contri) => {
-    const { checkedContributors } = this.state;
-    let updatedContributors = checkedContributors.includes()
-      ? checkedContributors.filter((c) => c !== x)
-      : [...checkedContributors, x];
+    let checkedId = this.state.checkedId.includes(contri.id)
+      ? this.state.checkedId.filter((id) => id !== contri.id)
+      : [...this.state.checkedId, contri.id];
+     console.log(checkedId)
+    let checkedContributors = this.state.checkedContributors.filter((contri) =>
+      checkedId.includes(contri.id)
+    );
+    this.setState(checkedId);
   };
+
   render() {
     const { classes, contributors } = this.props;
-    const { checkedContributors } = this.state;
+    const { checkedContributors, checkedId } = this.state;
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {
-          let { key, name } = contributor;
+          let { id, name } = contributor;
+          console.log(checkedId.includes(id));
           return (
-            <div className={classes.list} key={key}>
+            <div className={classes.list} key={id}>
               <div className={classes.avatar}></div>
               <FormControlLabel
                 labelPlacement="start"
-                control={<Checkbox onChange={this.handleChange} name={name} />}
+                control={
+                  <Checkbox
+                    onChange={(e) => this.handleChange(e, contributor)}
+                    name={name}
+                    checked={checkedId.includes(id)}
+                  />
+                }
                 label={name}
-                checked={checkedContributors.includes(key)}
               />
             </div>
           );
         })}
+        <br></br>
       </div>
     );
   }
