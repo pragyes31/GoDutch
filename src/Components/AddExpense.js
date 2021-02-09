@@ -377,6 +377,8 @@ class AddExpense extends React.Component {
             perPersonShareDialog={perPersonShareDialog}
             togglePerPersonShareDialog={this.togglePerPersonShareDialog}
             contributors={contributors}
+            expenseAmount={expenseAmount}
+
           />
         )}
       </div>

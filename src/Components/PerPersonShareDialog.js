@@ -103,7 +103,9 @@ class PerPersonShareDialog extends React.Component {
               <MenuItem value={"adjustment"}>Split by adjustment</MenuItem>
             </Select>
           </FormControl>
-          {this.state.equally && <SplitEqually contributors={contributors} />}
+          {this.state.equally && <SplitEqually contributors={contributors}
+          expenseAmount={this.props.expenseAmount}
+ />}
           {this.state.unequally && <SplitEqually />}
           {this.state.percentages && <SplitEqually />}
           {this.state.shares && <SplitEqually />}

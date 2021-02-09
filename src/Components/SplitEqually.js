@@ -20,36 +20,41 @@ const splitEquallyStyles = {
   label: {
     color: "aabbcc",
   },
+  perPersonShare: {
+    textAlign:"center",
+    fontWeight:"bold"
+  }
 };
 
 class SplitEqually extends React.Component {
   constructor(props) {
     super(props);
-    let checked = this.props.contributors.map((contributor) => contributor.id)
+    let checked = this.props.contributors.map((contributor) => contributor.id);
     this.state = {
       checkedContributors: this.props.contributors,
       checkedId: checked,
+      test: true,
     };
   }
   handleChange = (e, contri) => {
+    console.log(e.target.checked);
     let checkedId = this.state.checkedId.includes(contri.id)
       ? this.state.checkedId.filter((id) => id !== contri.id)
       : [...this.state.checkedId, contri.id];
-     console.log(checkedId)
     let checkedContributors = this.state.checkedContributors.filter((contri) =>
       checkedId.includes(contri.id)
     );
-    this.setState(checkedId);
+    this.setState({ checkedId, checkedContributors });
   };
 
   render() {
-    const { classes, contributors } = this.props;
+    const { classes, contributors, expenseAmount } = this.props;
     const { checkedContributors, checkedId } = this.state;
+    let perPersonShare = expenseAmount / checkedContributors.length;
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {
           let { id, name } = contributor;
-          console.log(checkedId.includes(id));
           return (
             <div className={classes.list} key={id}>
               <div className={classes.avatar}></div>
@@ -67,6 +72,9 @@ class SplitEqually extends React.Component {
             </div>
           );
         })}
+        <div className={classes.perPersonShare}>
+          {!!expenseAmount ? <div>INR {perPersonShare}/Person</div> : ""}
+        </div>
         <br></br>
       </div>
     );
