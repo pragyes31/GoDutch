@@ -16,7 +16,7 @@ class AmountPaidByPerPerson extends React.Component {
     const {classes} = this.props;
     return (
       <div className={classes.amountPaid}>
-        
+          
       </div>
     );
   }

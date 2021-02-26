@@ -2,6 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import TextField from "@material-ui/core/TextField";
+import PaidByWarning from "./PaidByWarning";
 
 const AmountPaidByPerPersonStyles = {
   dialog: {
@@ -64,11 +65,12 @@ class AmountPaidByPerPerson extends React.Component {
     this.state = {
       localContributors: this.props.contributors,
       totalAmount: 0,
+      paidByWarning: false,
     };
   }
   handlePaidValue = (e, payer) => {
     let amountPaid = e.target.value === "" ? 0 : parseFloat(e.target.value);
-    console.log(amountPaid)
+    console.log(amountPaid);
     const { localContributors: contributors } = this.state;
     let localContributors = contributors.map((contri) =>
       contri.id === payer.id ? { ...payer, amountPaid } : contri
@@ -80,6 +82,19 @@ class AmountPaidByPerPerson extends React.Component {
     //console.log(totalAmount);
     this.setState({ localContributors, totalAmount });
   };
+  handleExpensePaidShare = (contributors) => {
+    const {expenseAmount} = this.props;
+    const {totalAmount} = this.state;
+    if (expenseAmount !== totalAmount) {
+      this.setState({ paidByWarning: !this.state.paidByWarning });
+    } else {
+      this.props.handleExpensePaidShare(contributors);
+    }
+
+  };
+  togglePaidByWarning = () => {
+    this.setState({ paidByWarning: !this.state.paidByWarning });
+  };
   render() {
     const {
       classes,
@@ -88,7 +103,7 @@ class AmountPaidByPerPerson extends React.Component {
       handleExpensePaidShare,
       expenseAmount,
     } = this.props;
-    const { localContributors, totalAmount } = this.state;
+    const { localContributors, totalAmount, paidByWarning } = this.state;
     console.log(this.state.totalAmount);
     return (
       <div className={classes.amountPaid}>
@@ -134,17 +149,24 @@ class AmountPaidByPerPerson extends React.Component {
               </div>
               <div>
                 INR{" "}
-                {totalAmount > 0 ? expenseAmount - totalAmount : expenseAmount}&nbsp;
-                left
+                {totalAmount > 0 ? expenseAmount - totalAmount : expenseAmount}
+                &nbsp; left
               </div>
             </div>
             <div
               className={classes.okay}
-              onClick={() => handleExpensePaidShare(localContributors)}
+              onClick={() => this.handleExpensePaidShare(localContributors)}
             >
               OK
             </div>
           </div>
+          {paidByWarning && (
+            <PaidByWarning
+              paidByWarning={paidByWarning}
+              togglePaidByWarning={this.togglePaidByWarning}
+              expenseAmount={expenseAmount}
+            />
+          )}
         </Dialog>
       </div>
     );

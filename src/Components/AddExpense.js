@@ -245,7 +245,7 @@ class AddExpense extends React.Component {
     });
   };
   handleExpensePaidShare = (contributors) => {
-    console.log("contri");
+    console.log(contributors);
   };
   render() {
     const { classes, addExpenseDialog } = this.props;

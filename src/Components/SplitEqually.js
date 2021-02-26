@@ -21,7 +21,18 @@ const splitEquallyStyles = {
     color: "aabbcc",
   },
   perPersonShare: {
-    textAlign:"center",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  user: {
+    display: "flex",
+    alignItems: "center",
+  },
+  ok: {
+    textAlign:"right",
+    margin:"3rem 1rem 0 0",
+    color:"#009900",
+    cursor: "pointer",
     fontWeight:"bold"
   }
 };
@@ -33,17 +44,20 @@ class SplitEqually extends React.Component {
     this.state = {
       checkedContributors: this.props.contributors,
       checkedId: checked,
-      test: true,
     };
   }
   handleChange = (e, contri) => {
-    console.log(e.target.checked);
     let checkedId = this.state.checkedId.includes(contri.id)
       ? this.state.checkedId.filter((id) => id !== contri.id)
       : [...this.state.checkedId, contri.id];
-    let checkedContributors = this.state.checkedContributors.filter((contri) =>
-      checkedId.includes(contri.id)
-    );
+
+    let checkedContributors = this.state.checkedId.includes(contri.id)
+      ? this.state.checkedContributors.filter((contri) =>
+          checkedId.includes(contri.id)
+        )
+      : [...this.state.checkedContributors, contri];
+
+    console.log(checkedContributors);
     this.setState({ checkedId, checkedContributors });
   };
 
@@ -52,14 +66,16 @@ class SplitEqually extends React.Component {
     const { checkedContributors, checkedId } = this.state;
     let perPersonShare = expenseAmount / checkedContributors.length;
     return (
-      <div className={classes.splitUnequally}>
+      <div className={classes.splitEequally}>
         {contributors.map((contributor, i) => {
           let { id, name } = contributor;
           return (
             <div className={classes.list} key={id}>
-              <div className={classes.avatar}></div>
+              <div className={classes.user}>
+                <div className={classes.avatar}></div>
+                <div className={classes.name}>{name}</div>
+              </div>
               <FormControlLabel
-                labelPlacement="start"
                 control={
                   <Checkbox
                     onChange={(e) => this.handleChange(e, contributor)}
@@ -67,15 +83,14 @@ class SplitEqually extends React.Component {
                     checked={checkedId.includes(id)}
                   />
                 }
-                label={name}
               />
             </div>
           );
         })}
         <div className={classes.perPersonShare}>
-          {!!expenseAmount ? <div>INR {perPersonShare}/Person</div> : ""}
+          {!!expenseAmount || perPersonShare < 0 ? <div>INR {perPersonShare}/Person</div> : ""}
         </div>
-        <br></br>
+        <div className={classes.ok} onClick={this.handleExpenseSplit}>OK</div>
       </div>
     );
   }
