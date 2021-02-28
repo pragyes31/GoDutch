@@ -170,6 +170,7 @@ class AddExpense extends React.Component {
   togglePerPersonShareDialog = () => {
     this.setState({ perPersonShareDialog: !this.state.perPersonShareDialog });
   };
+
   handleContributors = (e, users) => {
     let contributors = users.map((user) => {
       return {
@@ -247,6 +248,7 @@ class AddExpense extends React.Component {
   handleExpensePaidShare = (contributors) => {
     console.log(contributors);
   };
+  handleEqualSplit = (perPersonShareList) => {};
   render() {
     const { classes, addExpenseDialog } = this.props;
     const {
@@ -338,7 +340,12 @@ class AddExpense extends React.Component {
                       : `${this.state.singlePayerName}`}
                   </span>
                   and split
-                  <span className={classes.splitType} onClick={this.togglePerPersonShareDialog}>EQUALLY</span>
+                  <span
+                    className={classes.splitType}
+                    onClick={this.togglePerPersonShareDialog}
+                  >
+                    EQUALLY
+                  </span>
                 </div>
               </div>
             </div>
@@ -378,7 +385,7 @@ class AddExpense extends React.Component {
             togglePerPersonShareDialog={this.togglePerPersonShareDialog}
             contributors={contributors}
             expenseAmount={expenseAmount}
-
+            handleEqualSplit={this.handleEqualSplit}
           />
         )}
       </div>

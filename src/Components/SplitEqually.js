@@ -61,9 +61,11 @@ class SplitEqually extends React.Component {
   };
 
   handleEqualSplit = (checkedContributors, expenseShare) => {
-    let checkedContributorsUpdated = checkedContributors.map((person) => {
-return {...person, expenseShare}
+    let {checkedId} = this.state;
+    let checkedContributorsUpdated = this.props.contributors.map((person) => {
+return checkedId.includes(person.id) ? {...person, expenseShare} : {...person, expenseShare:0}
     })
+    console.log(checkedContributorsUpdated)
 this.props.handleEqualSplit(checkedContributorsUpdated)
   }
 

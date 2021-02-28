@@ -3,6 +3,12 @@ import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import { MenuItem, FormControl, Select } from "@material-ui/core";
 import SplitEqually from "./SplitEqually";
+import SplitUnequally from "./SplitUnequally";
+import SplitByPercentage from "./SplitByPercentage";
+import SplitByShare from "./SplitByShare";
+import SplitByAdjustment from "./SplitByAdjustment";
+
+
 
 const PerPersonShareDialogStyles = {
   dialog: {
@@ -67,6 +73,9 @@ class PerPersonShareDialog extends React.Component {
         break;
     }
   };
+  handleEqualSplit = (perPersonShareList) => {
+    this.props.handleEqualSplit(perPersonShareList)
+  }
 
   render() {
     const {
@@ -104,12 +113,12 @@ class PerPersonShareDialog extends React.Component {
             </Select>
           </FormControl>
           {this.state.equally && <SplitEqually contributors={contributors}
-          expenseAmount={this.props.expenseAmount}
+          expenseAmount={this.props.expenseAmount} handleEqualSplit={this.handleEqualSplit}
  />}
-          {this.state.unequally && <SplitEqually />}
-          {this.state.percentages && <SplitEqually />}
-          {this.state.shares && <SplitEqually />}
-          {this.state.adjustment && <SplitEqually />}
+          {this.state.unequally && <SplitUnequally contributors={contributors} />}
+          {this.state.percentages && <SplitByPercentage contributors={contributors} />}
+          {this.state.shares && <SplitByShare contributors={contributors} />}
+          {this.state.adjustment && <SplitByAdjustment contributors={contributors} />}
         </Dialog>
       </div>
     );
