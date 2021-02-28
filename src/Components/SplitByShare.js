@@ -29,7 +29,7 @@ class SplitByShares extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, contributors } = this.props;
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {
