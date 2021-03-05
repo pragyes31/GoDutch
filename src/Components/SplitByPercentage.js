@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const splitByPercentageStyles = {
   list: {
@@ -21,26 +21,48 @@ const splitByPercentageStyles = {
     display: "flex",
     alignItems: "center",
   },
+  percentValue: {
+    width: "4rem",
+  },
+  ok: {
+    textAlign: "right",
+    margin: "3rem 1rem 0 0",
+    color: "#009900",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
 };
 
 class SplitByPercentage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      percentageShare: {},
+      percentageShare: [],
+      total:0.00,
+      error:false
     };
   }
 
-  handlePercentageShare = (e, id) => {
+  handlePercentageShare = (i, id) => (e) => {
+    let { percentageShare } = this.state;
+    let currentVal = parseInt(e.target.value)
+    let upadatedPercentageShare = [
+      ...percentageShare.slice(0, i),
+      currentVal,
+      ...percentageShare.slice(i + 1),
+    ];
+    let total = upadatedPercentageShare.reduce((acc, cur) => acc + cur, 0)
+    if(total > 100) this.setState({error:true})
     this.setState({
-      percentageShare: { ...this.state.percentageShare, [id]: e.target.value },
+      percentageShare: upadatedPercentageShare,
+      total,
+      error:false
     });
   };
 
   render() {
     const { classes, contributors } = this.props;
-    const { percentageShare } = this.state;
-    console.log(percentageShare)
+    const { percentageShare, total } = this.state;
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {
@@ -54,17 +76,24 @@ class SplitByPercentage extends React.Component {
               <div>
                 <TextField
                   id="description"
-                  className={classes.expenseValue}
+                  className={classes.percentValue}
                   placeholder="0"
                   type="number"
-                  value={percentageShare[id] || 0}
-                  onChange={() => this.handlePercentageShare(id)}
+                  value={percentageShare[i] || ""}
+                  onChange={this.handlePercentageShare(i, id)}
                   required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">%</InputAdornment>
+                    ),
+                  }}
                 />
               </div>
             </div>
           );
         })}
+        <div>Total:{total}% of 100%</div>
+        <div>{100 - total}% left</div>
         <div className={classes.ok} onClick={this.handleExpenseSplit}>
           OK
         </div>
