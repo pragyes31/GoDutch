@@ -31,38 +31,55 @@ const splitByPercentageStyles = {
     cursor: "pointer",
     fontWeight: "bold",
   },
+  total: {
+    textAlign:"center",
+    fontSize:"2rem"
+  },
+  error: {
+    color: "#ff7b25",
+    fontWeight: "500",
+  },
 };
 
 class SplitByPercentage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      percentageShare: [],
-      total:0.00,
-      error:false
+      percentageShare: {},
+      total: 0.0,
+      error: false,
     };
   }
 
-  handlePercentageShare = (i, id) => (e) => {
+  handlePercentageShare = (id) => (e) => {
     let { percentageShare } = this.state;
-    let currentVal = parseInt(e.target.value)
-    let upadatedPercentageShare = [
-      ...percentageShare.slice(0, i),
-      currentVal,
-      ...percentageShare.slice(i + 1),
-    ];
-    let total = upadatedPercentageShare.reduce((acc, cur) => acc + cur, 0)
-    if(total > 100) this.setState({error:true})
-    this.setState({
-      percentageShare: upadatedPercentageShare,
-      total,
-      error:false
+    let currentVal = parseInt(e.target.value);
+    let upadatedPercentageShare = { ...percentageShare, [id]: currentVal };
+    const keys = Object.keys(upadatedPercentageShare);
+    let total = 0;
+    keys.forEach((key) => {
+      total += upadatedPercentageShare[key];
     });
+    console.log(total);
+    if (total > 100) {
+      this.setState({
+        percentageShare: upadatedPercentageShare,
+        total,
+        error: true,
+      });
+    } else {
+      this.setState({
+        percentageShare: upadatedPercentageShare,
+        total,
+        error: false,
+      });
+    }
   };
 
   render() {
     const { classes, contributors } = this.props;
-    const { percentageShare, total } = this.state;
+    const { percentageShare, total, error } = this.state;
+    //console.log(total,error)
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {
@@ -79,8 +96,8 @@ class SplitByPercentage extends React.Component {
                   className={classes.percentValue}
                   placeholder="0"
                   type="number"
-                  value={percentageShare[i] || ""}
-                  onChange={this.handlePercentageShare(i, id)}
+                  value={percentageShare[id] || ""}
+                  onChange={this.handlePercentageShare(id)}
                   required
                   InputProps={{
                     endAdornment: (
@@ -92,7 +109,7 @@ class SplitByPercentage extends React.Component {
             </div>
           );
         })}
-        <div>Total:{total}% of 100%</div>
+        <div className={classes.total, error && classes.error}>Total:{total}% of 100%</div>
         <div>{100 - total}% left</div>
         <div className={classes.ok} onClick={this.handleExpenseSplit}>
           OK
@@ -117,3 +134,8 @@ const handleChange = userId => e => {
 users.map(user => <input key={user.id} value={values[user.id]} type="text" onChange={handleChange(user.id)} />);
 */
 }
+var values = {
+  id1: 56,
+  id2: 45,
+  id4: 65,
+};
