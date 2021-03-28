@@ -55,7 +55,8 @@ class SplitByPercentage extends React.Component {
     let { percentageShare } = this.state;
     let currentVal = parseInt(e.target.value);
     let upadatedPercentageShare = { ...percentageShare, [id]: currentVal };
-    const keys = Object.keys(upadatedPercentageShare);
+    const keys = Object.keys(percentageShare);
+
     let total = 0;
     keys.forEach((key) => {
       total += upadatedPercentageShare[key];
@@ -68,7 +69,7 @@ class SplitByPercentage extends React.Component {
         error: true,
       });
     } else {
-      this.setState({
+      this.setState({ 
         percentageShare: upadatedPercentageShare,
         total,
         error: false,
@@ -76,10 +77,27 @@ class SplitByPercentage extends React.Component {
     }
   };
 
+  handleExpenseSplit = () => {
+    const { percentageShare, total } = this.state;
+    const {expenseAmount, contributors} = this.props;
+    const keys = Object.keys(percentageShare);
+if(total === 100) {
+let contributorsUpdated = contributors.map((person) => {
+ let expenseShare = (percentageShare[person.id]*expenseAmount)/100
+  return {...person, expenseShare }
+})
+this.props.handleSplit(contributorsUpdated)
+
+}
+else {
+console.log("expense doesn't match up");
+}
+  }
+
   render() {
     const { classes, contributors } = this.props;
     const { percentageShare, total, error } = this.state;
-    //console.log(total,error)
+    console.log(contributors)
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {

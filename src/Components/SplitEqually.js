@@ -60,13 +60,13 @@ class SplitEqually extends React.Component {
     this.setState({ checkedId, checkedContributors });
   };
 
-  handleEqualSplit = (checkedContributors, expenseShare) => {
+  handleExpenseSplit = (checkedContributors, expenseShare) => {
     let {checkedId} = this.state;
     let checkedContributorsUpdated = this.props.contributors.map((person) => {
 return checkedId.includes(person.id) ? {...person, expenseShare} : {...person, expenseShare:0}
     })
     console.log(checkedContributorsUpdated)
-this.props.handleEqualSplit(checkedContributorsUpdated)
+this.props.handleSplit(checkedContributorsUpdated)
   }
 
   render() {
@@ -98,7 +98,7 @@ this.props.handleEqualSplit(checkedContributorsUpdated)
         <div className={classes.perPersonShare}>
           {!!expenseAmount || perPersonShare < 0 ? <div>INR {perPersonShare}/Person</div> : ""}
         </div>
-        <div className={classes.ok} onClick={() => this.handleEqualSplit(checkedContributors, perPersonShare)}>OK</div>
+        <div className={classes.ok} onClick={() => this.handleExpenseSplit(checkedContributors, perPersonShare)}>OK</div>
       </div>
     );
   }

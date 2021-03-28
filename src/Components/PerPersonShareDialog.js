@@ -73,8 +73,8 @@ class PerPersonShareDialog extends React.Component {
         break;
     }
   };
-  handleEqualSplit = (perPersonShareList) => {
-    this.props.handleEqualSplit(perPersonShareList)
+  handleSplit = (perPersonShareList) => {
+    this.props.handleSplit(perPersonShareList)
   }
 
   render() {
@@ -83,6 +83,7 @@ class PerPersonShareDialog extends React.Component {
       perPersonShareDialog,
       togglePerPersonShareDialog,
       contributors,
+      expenseAmount
     } = this.props;
     const {} = this.state;
     console.log(this.state.totalAmount);
@@ -113,12 +114,12 @@ class PerPersonShareDialog extends React.Component {
             </Select>
           </FormControl>
           {this.state.equally && <SplitEqually contributors={contributors}
-          expenseAmount={this.props.expenseAmount} handleEqualSplit={this.handleEqualSplit}
+          expenseAmount={expenseAmount} handleSplit={this.handleSplit}
  />}
-          {this.state.unequally && <SplitUnequally contributors={contributors} />}
-          {this.state.percentages && <SplitByPercentage contributors={contributors} />}
-          {this.state.shares && <SplitByShare contributors={contributors} />}
-          {this.state.adjustment && <SplitByAdjustment contributors={contributors} />}
+          {this.state.unequally && <SplitUnequally contributors={contributors} expenseAmount={expenseAmount} />}
+          {this.state.percentages && <SplitByPercentage contributors={contributors} expenseAmount={expenseAmount} />}
+          {this.state.shares && <SplitByShare contributors={contributors} expenseAmount={expenseAmount} />}
+          {this.state.adjustment && <SplitByAdjustment contributors={contributors} expenseAmount={expenseAmount} />}
         </Dialog>
       </div>
     );

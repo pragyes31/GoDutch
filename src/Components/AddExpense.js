@@ -248,7 +248,7 @@ class AddExpense extends React.Component {
   handleExpensePaidShare = (contributors) => {
     console.log(contributors);
   };
-  handleEqualSplit = (perPersonShareList) => {};
+  handleSplit = (perPersonShareList) => {};
   render() {
     const { classes, addExpenseDialog } = this.props;
     const {
@@ -385,7 +385,7 @@ class AddExpense extends React.Component {
             togglePerPersonShareDialog={this.togglePerPersonShareDialog}
             contributors={contributors}
             expenseAmount={expenseAmount}
-            handleEqualSplit={this.handleEqualSplit}
+            handleSplit={this.handleSplit}
           />
         )}
       </div>
