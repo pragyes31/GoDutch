@@ -8,8 +8,6 @@ import SplitByPercentage from "./SplitByPercentage";
 import SplitByShare from "./SplitByShare";
 import SplitByAdjustment from "./SplitByAdjustment";
 
-
-
 const PerPersonShareDialogStyles = {
   dialog: {
     width: "400px",
@@ -74,8 +72,8 @@ class PerPersonShareDialog extends React.Component {
     }
   };
   handleSplit = (perPersonShareList) => {
-    this.props.handleSplit(perPersonShareList)
-  }
+    this.props.handleSplit(perPersonShareList);
+  };
 
   render() {
     const {
@@ -83,7 +81,7 @@ class PerPersonShareDialog extends React.Component {
       perPersonShareDialog,
       togglePerPersonShareDialog,
       contributors,
-      expenseAmount
+      expenseAmount,
     } = this.props;
     const {} = this.state;
     console.log(this.state.totalAmount);
@@ -113,13 +111,38 @@ class PerPersonShareDialog extends React.Component {
               <MenuItem value={"adjustment"}>Split by adjustment</MenuItem>
             </Select>
           </FormControl>
-          {this.state.equally && <SplitEqually contributors={contributors}
-          expenseAmount={expenseAmount} handleSplit={this.handleSplit}
- />}
-          {this.state.unequally && <SplitUnequally contributors={contributors} expenseAmount={expenseAmount} />}
-          {this.state.percentages && <SplitByPercentage contributors={contributors} expenseAmount={expenseAmount} />}
-          {this.state.shares && <SplitByShare contributors={contributors} expenseAmount={expenseAmount} />}
-          {this.state.adjustment && <SplitByAdjustment contributors={contributors} expenseAmount={expenseAmount} />}
+          {this.state.equally && (
+            <SplitEqually
+              contributors={contributors}
+              expenseAmount={expenseAmount}
+              handleSplit={this.handleSplit}
+            />
+          )}
+          {this.state.unequally && (
+            <SplitUnequally
+              contributors={contributors}
+              expenseAmount={expenseAmount}
+            />
+          )}
+          {this.state.percentages && (
+            <SplitByPercentage
+              contributors={contributors}
+              expenseAmount={expenseAmount}
+              handleSplit={this.handleSplit}
+            />
+          )}
+          {this.state.shares && (
+            <SplitByShare
+              contributors={contributors}
+              expenseAmount={expenseAmount}
+            />
+          )}
+          {this.state.adjustment && (
+            <SplitByAdjustment
+              contributors={contributors}
+              expenseAmount={expenseAmount}
+            />
+          )}
         </Dialog>
       </div>
     );

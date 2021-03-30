@@ -53,13 +53,13 @@ class SplitByPercentage extends React.Component {
 
   handlePercentageShare = (id) => (e) => {
     let { percentageShare } = this.state;
-    let currentVal = parseInt(e.target.value);
+    let currentVal = parseInt(e.target.value !== "NaN" ? e.target.value : "");
     let upadatedPercentageShare = { ...percentageShare, [id]: currentVal };
     const keys = Object.keys(percentageShare);
 
     let total = 0;
     keys.forEach((key) => {
-      total += upadatedPercentageShare[key];
+      total += upadatedPercentageShare[key] !== "NaN" ? upadatedPercentageShare[key] : 0;
     });
     console.log(total);
     if (total > 100) {
@@ -80,12 +80,12 @@ class SplitByPercentage extends React.Component {
   handleExpenseSplit = () => {
     const { percentageShare, total } = this.state;
     const {expenseAmount, contributors} = this.props;
-    const keys = Object.keys(percentageShare);
 if(total === 100) {
 let contributorsUpdated = contributors.map((person) => {
  let expenseShare = (percentageShare[person.id]*expenseAmount)/100
   return {...person, expenseShare }
 })
+console.log(contributorsUpdated)
 this.props.handleSplit(contributorsUpdated)
 
 }
@@ -97,7 +97,6 @@ console.log("expense doesn't match up");
   render() {
     const { classes, contributors } = this.props;
     const { percentageShare, total, error } = this.state;
-    console.log(contributors)
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {
@@ -127,7 +126,7 @@ console.log("expense doesn't match up");
             </div>
           );
         })}
-        <div className={classes.total, error && classes.error}>Total:{total}% of 100%</div>
+        <div className={classes.total, error ? classes.error : undefined}>Total:{total}% of 100%</div>
         <div>{100 - total}% left</div>
         <div className={classes.ok} onClick={this.handleExpenseSplit}>
           OK
@@ -138,22 +137,3 @@ console.log("expense doesn't match up");
 }
 
 export default withStyles(splitByPercentageStyles)(SplitByPercentage);
-
-{
-  /*
-const [values, setValues] = useState(initialValues);
-
-// ....
-
-const handleChange = userId => e => {
-  setValues(values => ({ ...values, [userId]: e.target.value }));
-}
-
-users.map(user => <input key={user.id} value={values[user.id]} type="text" onChange={handleChange(user.id)} />);
-*/
-}
-var values = {
-  id1: 56,
-  id2: 45,
-  id4: 65,
-};

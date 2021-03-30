@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 
 const splitUnequallyStyles = {
   list: {
@@ -16,20 +17,43 @@ const splitUnequallyStyles = {
     marginRight: "10px",
   },
   user: {
-    display:"flex",
-    alignItems:"center"
-  }
+    display: "flex",
+    alignItems: "center",
+  },
+  unequalShare: {
+    width: "4rem",
+  },
+  ok: {
+    textAlign: "right",
+    margin: "3rem 1rem 0 0",
+    color: "#009900",
+    cursor: "pointer",
+    fontWeight: "bold",
+  },
 };
 
 class SplitUnequally extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      contributors:this.props.contributors
     };
   }
 
+  handleShare = (i, id) => (e) => {
+    const { contributors } = this.state;
+    let expenseShare = parseInt(e.target.value !== "NaN" ? e.target.value : 0);
+    let contributorsUpdated = contributors.map((contributor) =>
+      contributor.id === id ? { ...contributor, expenseShare } : {...contributor}
+    );
+    console.log(contributorsUpdated)
+    this.setState({contributors:contributorsUpdated})
+  };
+
   render() {
-    const { classes, contributors } = this.props;
+    const { classes } = this.props;
+    const { contributors } = this.state;
+    console.log(contributors)
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {
@@ -40,11 +64,23 @@ class SplitUnequally extends React.Component {
                 <div className={classes.avatar}></div>
                 <div className={classes.name}>{name}</div>
               </div>
+              <div>
+                <TextField
+                  id="description"
+                  className={classes.unequalShare}
+                  placeholder="0"
+                  type="number"
+                  value={contributor.expenseShare}
+                  onChange={this.handleShare(i, id)}
+                  required
+                />
+              </div>
             </div>
           );
         })}
-        <div className={classes.ok} onClick={this.handleExpenseSplit}>OK</div>
-
+        <div className={classes.ok} onClick={this.handleExpenseSplit}>
+          OK
+        </div>
       </div>
     );
   }
