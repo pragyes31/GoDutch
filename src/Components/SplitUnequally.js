@@ -30,13 +30,23 @@ const splitUnequallyStyles = {
     cursor: "pointer",
     fontWeight: "bold",
   },
+  total: {
+    textAlign:"center",
+    fontSize:"2rem"
+  },
+  error: {
+    color: "#ff7b25",
+    fontWeight: "500",
+  },
 };
 
 class SplitUnequally extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      contributors:this.props.contributors
+      contributors: this.props.contributors,
+      total: "",
+      error:false
     };
   }
 
@@ -44,16 +54,26 @@ class SplitUnequally extends React.Component {
     const { contributors } = this.state;
     let expenseShare = parseInt(e.target.value !== "NaN" ? e.target.value : 0);
     let contributorsUpdated = contributors.map((contributor) =>
-      contributor.id === id ? { ...contributor, expenseShare } : {...contributor}
+      contributor.id === id
+        ? { ...contributor, expenseShare }
+        : { ...contributor }
     );
-    console.log(contributorsUpdated)
-    this.setState({contributors:contributorsUpdated})
+    let total = contributorsUpdated.reduce((prev, next) => {
+      let nextShare = next.expenseShare !== "" ? next.expenseShare : 0;
+      return prev + nextShare;
+    }, 0);
+    if(total > this.props.expenseAmount ) {
+      this.setState({ contributors: contributorsUpdated, total, error:true });
+    }
+    else {
+      this.setState({ contributors: contributorsUpdated, total, error:false });
+
+    }
   };
 
   render() {
-    const { classes } = this.props;
-    const { contributors } = this.state;
-    console.log(contributors)
+    const { classes, expenseAmount } = this.props;
+    const { contributors, total, error } = this.state;
     return (
       <div className={classes.splitUnequally}>
         {contributors.map((contributor, i) => {
@@ -78,6 +98,10 @@ class SplitUnequally extends React.Component {
             </div>
           );
         })}
+        <div className={(classes.total, error ? classes.error : undefined)}>
+          Total:{total} of {expenseAmount}
+        </div>
+        <div>{expenseAmount - total} left</div>
         <div className={classes.ok} onClick={this.handleExpenseSplit}>
           OK
         </div>

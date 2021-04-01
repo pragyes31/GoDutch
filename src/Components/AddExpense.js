@@ -127,10 +127,10 @@ class AddExpense extends React.Component {
 
       currentExpense: {
         description: "",
-        expenseAmount: 0,
+        expenseAmount: "",
         contributors: [],
         whoPaid: "",
-        amountYouOwe: 0,
+        amountYouOwe: "",
       },
     };
   }
@@ -176,9 +176,9 @@ class AddExpense extends React.Component {
       return {
         name: user.name,
         id: user.id,
-        amountPaid: 0,
-        expenseShare: 0,
-        amountUserOwes: 0,
+        amountPaid: "",
+        expenseShare: "",
+        amountUserOwes: "",
       };
     });
     this.setState({
@@ -188,9 +188,9 @@ class AddExpense extends React.Component {
           {
             name: "You",
             id: "abcd",
-            amountPaid: 0,
-            expenseShare: 0,
-            amountUserOwes: 0,
+            amountPaid: "",
+            expenseShare: "",
+            amountUserOwes: "",
           },
           ...contributors,
         ],
