@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { withStyles } from "@material-ui/core/styles";
 
-const splitBySharesStyles = {
+const splitByShareStyles = {
   list: {
     display: "flex",
     margin: "1rem 0rem",
@@ -21,7 +21,7 @@ const splitBySharesStyles = {
   }
 };
 
-class SplitByShares extends React.Component {
+class SplitByShare extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,4 +50,26 @@ class SplitByShares extends React.Component {
   }
 }
 
-export default withStyles(splitBySharesStyles)(SplitByShares);
+function SplitByShare1(props) {
+  const { classes, contributors } = props;
+  const [error, setError] = useState(false)
+let handleExpenseSplit = () => {}
+return (
+  <div className={classes.splitUnequally}>
+        {contributors.map((contributor, i) => {
+          let { id, name } = contributor;
+          return (
+            <div className={classes.list} key={id}>
+              <div className={classes.user}>
+                <div className={classes.avatar}></div>
+                <div className={classes.name}>{name}</div>
+              </div>
+            </div>
+          );
+        })}
+        <div className={classes.ok} onClick={handleExpenseSplit}>OK</div>
+      </div>
+)
+}
+
+export default withStyles(splitByShareStyles)(SplitByShare);

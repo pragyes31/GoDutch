@@ -50,4 +50,27 @@ class SplitByAdjustment extends React.Component {
   }
 }
 
+function SplitByAdjustment1(props) {
+  const { classes, contributors } = props;
+let handleExpenseSplit = () => {
+  
+}
+return (
+  <div className={classes.splitUnequally}>
+        {contributors.map((contributor, i) => {
+          let { id, name } = contributor;
+          return (
+            <div className={classes.list} key={id}>
+              <div className={classes.user}>
+                <div className={classes.avatar}></div>
+                <div className={classes.name}>{name}</div>
+              </div>
+            </div>
+          );
+        })}
+        <div className={classes.ok} onClick={handleExpenseSplit}>OK</div>
+      </div>
+)
+}
+
 export default withStyles(splitByAdjustmentStyles)(SplitByAdjustment);

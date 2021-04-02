@@ -71,6 +71,10 @@ class SplitUnequally extends React.Component {
     }
   };
 
+  handleExpenseSplit = () => {
+    this.props.handleSplit(this.state.contributors)
+  }
+
   render() {
     const { classes, expenseAmount } = this.props;
     const { contributors, total, error } = this.state;
