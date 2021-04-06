@@ -135,13 +135,15 @@ class PerPersonShareDialog extends React.Component {
             <SplitByShare
               contributors={contributors}
               expenseAmount={expenseAmount}
+              handleSplit={this.handleSplit}
             />
           )}
           {this.state.adjustment && (
             <SplitByAdjustment
               contributors={contributors}
               expenseAmount={expenseAmount}
-            />
+              handleSplit={this.handleSplit}
+              />
           )}
         </Dialog>
       </div>
