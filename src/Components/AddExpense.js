@@ -261,6 +261,7 @@ class AddExpense extends React.Component {
       moreOptions,
       currentExpense: { expenseAmount, contributors },
     } = this.state;
+    console.log(this.state.singlePayerName)
     return (
       <div className={classes.addFriend}>
         <Dialog
