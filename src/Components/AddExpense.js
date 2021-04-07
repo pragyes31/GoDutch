@@ -127,7 +127,7 @@ class AddExpense extends React.Component {
 
       currentExpense: {
         description: "",
-        expenseAmount: "",
+        expenseAmount: 0,
         contributors: [],
         whoPaid: "",
         amountYouOwe: "",
@@ -188,7 +188,7 @@ class AddExpense extends React.Component {
           {
             name: "You",
             id: "abcd",
-            amountPaid: "",
+            amountPaid: this.state.currentExpense.expenseAmount,
             expenseShare: "",
             amountUserOwes: "",
           },
@@ -215,10 +215,21 @@ class AddExpense extends React.Component {
   };
 
   handlePayer = (payer) => {
+    let { contributors, expenseAmount } = this.state.currentExpense;
+    let updatedContributors = contributors.map((user) => {
+      return user.id === payer.id
+        ? { ...user, amountPaid: expenseAmount }
+        : { ...user, amountPaid: 0 };
+    });
+    console.log(updatedContributors);
     this.setState({
       multiplePeople: false,
       singlePayerName: payer.name,
       choosePayerDialog: !this.state.choosePayerDialog,
+      currentExpense: {
+        ...this.state.currentExpense,
+        contributors: updatedContributors,
+      },
     });
   };
   resetExpense = () => {
@@ -258,10 +269,9 @@ class AddExpense extends React.Component {
       AmountPaidByPerPersonDialog,
       perPersonShareDialog,
       currentExpense,
-      moreOptions,
       currentExpense: { expenseAmount, contributors },
     } = this.state;
-    console.log(this.state.singlePayerName)
+    console.log(this.state.currentExpense);
     return (
       <div className={classes.addFriend}>
         <Dialog
@@ -395,6 +405,22 @@ class AddExpense extends React.Component {
 }
 
 export default withStyles(AddExpenseStyles)(AddExpense);
+
+{
+  /*
+  Note: Write logic which only computes how much you owe your friends or vice versa. 
+Step 1: Loop through all contributors and calculate 'amountUserOwes' for each contributor. 
+        amountUserOwes = expenseShare - amountPaid
+Step 2: Check if you owe money for this expense or you are owed. 
+Step 3: Create a new array 'contributorsWithoutYou' and push all contributors except yourself
+Step 4: If you owe money(amountUserOwes > 0), sort the array in decreasing order of AmountUserOwes
+Step 5: If you are owed money((amountUserOwes < 0)), sort the array in increasing order of AmountUserOwes
+Step 6: Create a variable debtRemaining that will calculate the debt remaining while splitting expenses
+Step 7: Loop through the contributorsWithoutYou array.
+Step 8: In each iteration, check if the your amountUserOwes is > than user's amountUserOwes. 
+        If it is, 
+*/
+}
 
 {
   /* {contributors.length === 2 ? (
