@@ -176,9 +176,9 @@ class AddExpense extends React.Component {
       return {
         name: user.name,
         id: user.id,
-        amountPaid: "",
-        expenseShare: "",
-        amountUserOwes: "",
+        amountPaid: 0,
+        expenseShare: 0,
+        amountUserOwes: 0,
       };
     });
     this.setState({
@@ -189,8 +189,8 @@ class AddExpense extends React.Component {
             name: "You",
             id: "abcd",
             amountPaid: this.state.currentExpense.expenseAmount,
-            expenseShare: "",
-            amountUserOwes: "",
+            expenseShare: 0,
+            amountUserOwes: 0,
           },
           ...contributors,
         ],
@@ -221,7 +221,6 @@ class AddExpense extends React.Component {
         ? { ...user, amountPaid: expenseAmount }
         : { ...user, amountPaid: 0 };
     });
-    console.log(updatedContributors);
     this.setState({
       multiplePeople: false,
       singlePayerName: payer.name,
@@ -259,7 +258,9 @@ class AddExpense extends React.Component {
   handleExpensePaidShare = (contributors) => {
     console.log(contributors);
   };
-  handleSplit = (perPersonShareList) => {};
+  handleSplit = (contributors) => {
+console.log(contributors)
+  };
   render() {
     const { classes, addExpenseDialog } = this.props;
     const {
@@ -415,7 +416,7 @@ Step 2: Check if you owe money for this expense or you are owed.
 Step 3: Create a new array 'contributorsWithoutYou' and push all contributors except yourself
 Step 4: If you owe money(amountUserOwes > 0), sort the array in decreasing order of AmountUserOwes
 Step 5: If you are owed money((amountUserOwes < 0)), sort the array in increasing order of AmountUserOwes
-Step 6: Create a variable debtRemaining that will calculate the debt remaining while splitting expenses
+Step 6: Create a variable balanceRemaining that will calculate the balance remaining while splitting expenses
 Step 7: Loop through the contributorsWithoutYou array.
 Step 8: In each iteration, check if the your amountUserOwes is > than user's amountUserOwes. 
         If it is, 

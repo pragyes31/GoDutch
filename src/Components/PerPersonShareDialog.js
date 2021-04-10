@@ -71,9 +71,8 @@ class PerPersonShareDialog extends React.Component {
         break;
     }
   };
-  handleSplit = (perPersonShareList) => {
-    console.log(perPersonShareList)
-    this.props.handleSplit(perPersonShareList);
+  handleSplit = (contributors) => {
+    this.props.handleSplit(contributors);
   };
 
   render() {
