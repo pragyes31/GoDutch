@@ -124,11 +124,20 @@ class AddExpense extends React.Component {
       moreOptions: false,
       whoPaidText: "Paid by YOU and split EQUALLY",
       multiplePeople: false,
+      defaultPayerState: true,
 
       currentExpense: {
         description: "",
         expenseAmount: 0,
-        contributors: [],
+        contributors: [
+          {
+            name: "You",
+            id: "abcd",
+            amountPaid: 0,
+            expenseShare: 0,
+            amountUserOwes: 0,
+          },
+        ],
         whoPaid: "",
         amountYouOwe: "",
       },
@@ -185,13 +194,7 @@ class AddExpense extends React.Component {
       currentExpense: {
         ...this.state.currentExpense,
         contributors: [
-          {
-            name: "You",
-            id: "abcd",
-            amountPaid: this.state.currentExpense.expenseAmount,
-            expenseShare: 0,
-            amountUserOwes: 0,
-          },
+          this.state.currentExpense.contributors[0],
           ...contributors,
         ],
       },
@@ -206,10 +209,30 @@ class AddExpense extends React.Component {
     });
   };
   handleAmount = (e) => {
+    let { currentExpense } = this.state.currentExpense;
+    let expenseAmount = parseFloat(e.target.value);
+    if (this.state.defaultPayerState) {
+      let contributors = currentExpense.contributors.map((user) => 
+        user.id === "abcd"
+          ? { ...user, amountPaid: expenseAmount }
+          : { ...user }
+      )}
+
+      this.setState({
+        currentExpense: {
+          ...currentExpense,
+          contributors: [
+            ...currentExpense.contributors
+          ],
+        },
+      });
+    
+
+     
     this.setState({
       currentExpense: {
         ...this.state.currentExpense,
-        expenseAmount: parseFloat(e.target.value),
+        expenseAmount,
       },
     });
   };
@@ -259,7 +282,7 @@ class AddExpense extends React.Component {
     console.log(contributors);
   };
   handleSplit = (contributors) => {
-console.log(contributors)
+    console.log(contributors);
   };
   render() {
     const { classes, addExpenseDialog } = this.props;
