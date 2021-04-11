@@ -129,15 +129,7 @@ class AddExpense extends React.Component {
       currentExpense: {
         description: "",
         expenseAmount: 0,
-        contributors: [
-          {
-            name: "You",
-            id: "abcd",
-            amountPaid: 0,
-            expenseShare: 0,
-            amountUserOwes: 0,
-          },
-        ],
+        contributors: [],
         whoPaid: "",
         amountYouOwe: "",
       },
@@ -194,7 +186,13 @@ class AddExpense extends React.Component {
       currentExpense: {
         ...this.state.currentExpense,
         contributors: [
-          this.state.currentExpense.contributors[0],
+          {
+            name: "You",
+            id: "abcd",
+            amountPaid: 0,
+            expenseShare: 0,
+            amountUserOwes: 0,
+          },
           ...contributors,
         ],
       },
@@ -209,32 +207,22 @@ class AddExpense extends React.Component {
     });
   };
   handleAmount = (e) => {
-    let { currentExpense } = this.state.currentExpense;
+    let { currentExpense, defaultPayerState } = this.state;
     let expenseAmount = parseFloat(e.target.value);
-    if (this.state.defaultPayerState) {
-      let contributors = currentExpense.contributors.map((user) => 
-        user.id === "abcd"
+    if (defaultPayerState) {
+      let contributors = currentExpense.contributors.map((user) => {
+        return user.id === "abcd"
           ? { ...user, amountPaid: expenseAmount }
-          : { ...user }
-      )}
-
-      this.setState({
-        currentExpense: {
-          ...currentExpense,
-          contributors: [
-            ...currentExpense.contributors
-          ],
-        },
+          : { ...user };
       });
-    
-
-     
-    this.setState({
-      currentExpense: {
-        ...this.state.currentExpense,
-        expenseAmount,
-      },
-    });
+      this.setState({
+        currentExpense: { ...currentExpense, contributors, expenseAmount },
+      });
+    } else {
+      this.setState({
+        currentExpense: { ...currentExpense, expenseAmount },
+      });
+    }
   };
 
   handlePayer = (payer) => {
@@ -248,6 +236,7 @@ class AddExpense extends React.Component {
       multiplePeople: false,
       singlePayerName: payer.name,
       choosePayerDialog: !this.state.choosePayerDialog,
+      defaultPayerState: false,
       currentExpense: {
         ...this.state.currentExpense,
         contributors: updatedContributors,
@@ -295,7 +284,7 @@ class AddExpense extends React.Component {
       currentExpense,
       currentExpense: { expenseAmount, contributors },
     } = this.state;
-    console.log(this.state.currentExpense);
+    console.log(contributors);
     return (
       <div className={classes.addFriend}>
         <Dialog
