@@ -271,7 +271,16 @@ class AddExpense extends React.Component {
     console.log(contributors);
   };
   handleSplit = (contributors) => {
-    console.log(contributors);
+    const updatedContributors = contributors.map((user) => {
+      return { ...user, amountUserOwes: user.expenseShare - user.amountPaid };
+    });
+let contributorsWithoutYou = updatedContributors.slice(1)
+let contIncOrder = updatedContributors.slice(1).sort((a,b) => a.amountUserOwes - b.amountUserOwes)
+    let contDecOrder = updatedContributors.slice(1).sort((a,b) => b.amountUserOwes - a.amountUserOwes)
+console.log(contIncOrder)
+console.log(contDecOrder)
+    let {amountUserOwes} = updatedContributors[0].amountUserOwes
+   // amountUserOwes > 0 ? "" : ""
   };
   render() {
     const { classes, addExpenseDialog } = this.props;
@@ -284,7 +293,6 @@ class AddExpense extends React.Component {
       currentExpense,
       currentExpense: { expenseAmount, contributors },
     } = this.state;
-    console.log(contributors);
     return (
       <div className={classes.addFriend}>
         <Dialog

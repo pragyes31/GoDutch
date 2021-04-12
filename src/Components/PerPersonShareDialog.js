@@ -122,6 +122,7 @@ class PerPersonShareDialog extends React.Component {
             <SplitUnequally
               contributors={contributors}
               expenseAmount={expenseAmount}
+              handleSplit={this.handleSplit}
             />
           )}
           {this.state.percentages && (
