@@ -274,13 +274,26 @@ class AddExpense extends React.Component {
     const updatedContributors = contributors.map((user) => {
       return { ...user, amountUserOwes: user.expenseShare - user.amountPaid };
     });
-let contributorsWithoutYou = updatedContributors.slice(1)
-let contIncOrder = updatedContributors.slice(1).sort((a,b) => a.amountUserOwes - b.amountUserOwes)
-    let contDecOrder = updatedContributors.slice(1).sort((a,b) => b.amountUserOwes - a.amountUserOwes)
-console.log(contIncOrder)
-console.log(contDecOrder)
-    let {amountUserOwes} = updatedContributors[0].amountUserOwes
-   // amountUserOwes > 0 ? "" : ""
+    let contributorsWithoutYou = updatedContributors.slice(1);
+    let contIncOrder = updatedContributors
+      .slice(1)
+      .sort((a, b) => a.amountUserOwes - b.amountUserOwes);
+    let contDecOrder = updatedContributors
+      .slice(1)
+      .sort((a, b) => b.amountUserOwes - a.amountUserOwes);
+      let balanceSheet = {};
+    let  amountYouOwe = updatedContributors[0].amountUserOwes;
+     if(amountYouOwe > 0) {
+      contIncOrder.forEach(({amountUserOwes, id}) => {
+        amountYouOwe > Math.abs(amountUserOwes) ? amountYouOwe -= Math.abs(amountUserOwes) : amountYouOwe = 0
+
+      })
+     }
+     else if(amountYouOwe < 0) {
+      contDecOrder.forEach(({amountUserOwes, id}) => {
+        Math.abs(amountYouOwe) > amountUserOwes ? amountYouOwe += amountUserOwes : amountYouOwe = 0
+      })
+     }
   };
   render() {
     const { classes, addExpenseDialog } = this.props;
