@@ -268,7 +268,11 @@ class AddExpense extends React.Component {
     });
   };
   handleExpensePaidShare = (contributors) => {
-    console.log(contributors);
+    this.setState({
+      currentExpense: {...this.state.currentExpense, contributors},
+      AmountPaidByPerPersonDialog:!this.state.AmountPaidByPerPersonDialog,
+      choosePayerDialog: !this.state.choosePayerDialog
+    })
   };
   handleSplit = (contributors) => {
     const updatedContributors = contributors.map((user) => {

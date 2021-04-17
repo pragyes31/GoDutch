@@ -64,13 +64,15 @@ class AmountPaidByPerPerson extends React.Component {
     super(props);
     this.state = {
       localContributors: this.props.contributors,
-      totalAmount: 0,
+      totalAmount: this.props.contributors.reduce(
+        (prev, next) => prev + next.amountPaid,
+        0
+      ),
       paidByWarning: false,
     };
   }
   handlePaidValue = (e, payer) => {
     let amountPaid = e.target.value === "" ? 0 : parseFloat(e.target.value);
-    console.log(amountPaid);
     const { localContributors: contributors } = this.state;
     let localContributors = contributors.map((contri) =>
       contri.id === payer.id ? { ...payer, amountPaid } : contri
@@ -79,7 +81,6 @@ class AmountPaidByPerPerson extends React.Component {
       (prev, next) => prev + next.amountPaid,
       0
     );
-    //console.log(totalAmount);
     this.setState({ localContributors, totalAmount });
   };
   handleExpensePaidShare = (contributors) => {
@@ -104,7 +105,6 @@ class AmountPaidByPerPerson extends React.Component {
       expenseAmount,
     } = this.props;
     const { localContributors, totalAmount, paidByWarning } = this.state;
-    console.log(this.state.totalAmount);
     return (
       <div className={classes.amountPaid}>
         <Dialog
