@@ -275,10 +275,15 @@ class AddExpense extends React.Component {
     })
   };
   handleSplit = (contributors) => {
-    const updatedContributors = contributors.map((user) => {
+    this.setState({
+      currentExpense:{...this.state.currentExpense, contributors}
+    })
+  };
+  handleExpenseSharing = (e) => {
+    e.preventDefault()
+    const updatedContributors = this.state.currentExpense.contributors.map((user) => {
       return { ...user, amountUserOwes: user.expenseShare - user.amountPaid };
     });
-    let contributorsWithoutYou = updatedContributors.slice(1);
     let contIncOrder = updatedContributors
       .slice(1)
       .sort((a, b) => a.amountUserOwes - b.amountUserOwes);
@@ -309,7 +314,7 @@ class AddExpense extends React.Component {
       });
     }
     console.log(balanceSheet)
-  };
+  }
   render() {
     const { classes, addExpenseDialog } = this.props;
     const {

@@ -83,8 +83,6 @@ class PerPersonShareDialog extends React.Component {
       contributors,
       expenseAmount,
     } = this.props;
-    const {} = this.state;
-    console.log(this.state.totalAmount);
     return (
       <div className={classes.perPersonShare}>
         <Dialog
