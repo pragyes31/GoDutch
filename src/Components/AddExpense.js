@@ -324,7 +324,8 @@ class AddExpense extends React.Component {
         }
       });
     }
-    console.log(balanceSheet);
+    console.log(balanceSheet)
+    this.props.toggleAddExpenseDialog();
   };
   render() {
     const { classes, addExpenseDialog } = this.props;

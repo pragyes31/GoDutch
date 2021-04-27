@@ -338,6 +338,15 @@ export default class AppDashboard extends React.Component {
     }
   };
 
+  populateBalance = (balanceSheet) => {
+    firebase
+    .database()
+    .ref("blanceSheet")
+    .push()
+  }
+
+  // balanceSheetDb = []
+
   render() {
     return (
       <div className="app-dashboard">
@@ -358,6 +367,7 @@ export default class AppDashboard extends React.Component {
           color="secondary"
           tooltip="Add Expense"
           toggleAddExpenseDialog={this.toggleAddExpenseDialog}
+          populateBalance={this.populateBalance}
         />
         {this.state.optionsDialog && (
           <OptionsDialog
