@@ -125,6 +125,7 @@ class AddExpense extends React.Component {
       whoPaidText: "Paid by YOU and split EQUALLY",
       multiplePeople: false,
       defaultPayerState: true,
+      defaultSplitState:true,
 
       currentExpense: {
         description: "",
@@ -169,7 +170,7 @@ class AddExpense extends React.Component {
     });
   };
   togglePerPersonShareDialog = () => {
-    this.setState({ perPersonShareDialog: !this.state.perPersonShareDialog });
+    this.setState({ perPersonShareDialog: !this.state.perPersonShareDialog, defaultSplitState:false });
   };
 
   handleContributors = (e, users) => {
@@ -207,7 +208,7 @@ class AddExpense extends React.Component {
     });
   };
   handleAmount = (e) => {
-    let { currentExpense, defaultPayerState } = this.state;
+    let { currentExpense, defaultPayerState, defaultSplitState } = this.state;
     let expenseAmount = parseFloat(e.target.value);
     if (defaultPayerState) {
       let contributors = currentExpense.contributors.map((user) => {
@@ -218,7 +219,18 @@ class AddExpense extends React.Component {
       this.setState({
         currentExpense: { ...currentExpense, contributors, expenseAmount },
       });
-    } else {
+    } 
+    if(defaultSplitState) {
+     let expenseShare = expenseAmount/(currentExpense.contributors.length)
+      let contributors = currentExpense.contributors.map((user) => {
+        return {...user, expenseShare}
+      });
+      console.log(contributors)
+      this.setState({
+        currentExpense: { ...currentExpense, contributors, expenseAmount },
+      });
+    }
+    else {
       this.setState({
         currentExpense: { ...currentExpense, expenseAmount },
       });

@@ -21,36 +21,36 @@ const splitByAdjustmentStyles = {
   }
 };
 
-class SplitByAdjustment extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
+// class SplitByAdjustment extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//     };
+//   }
 
-  render() {
-    const { classes, contributors } = this.props;
-    return (
-      <div className={classes.splitUnequally}>
-        {contributors.map((contributor, i) => {
-          let { id, name } = contributor;
-          return (
-            <div className={classes.list} key={id}>
-              <div className={classes.user}>
-                <div className={classes.avatar}></div>
-                <div className={classes.name}>{name}</div>
-              </div>
-            </div>
-          );
-        })}
-        <div className={classes.ok} onClick={this.handleExpenseSplit}>OK</div>
+//   render() {
+//     const { classes, contributors } = this.props;
+//     return (
+//       <div className={classes.splitUnequally}>
+//         {contributors.map((contributor, i) => {
+//           let { id, name } = contributor;
+//           return (
+//             <div className={classes.list} key={id}>
+//               <div className={classes.user}>
+//                 <div className={classes.avatar}></div>
+//                 <div className={classes.name}>{name}</div>
+//               </div>
+//             </div>
+//           );
+//         })}
+//         <div className={classes.ok} onClick={this.handleExpenseSplit}>OK</div>
 
-      </div>
-    );
-  }
-}
+//       </div>
+//     );
+//   }
+// }
 
-function SplitByAdjustment1(props) {
+function SplitByAdjustment(props) {
   const { classes, contributors } = props;
 let handleExpenseSplit = () => {
   
