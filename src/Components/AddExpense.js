@@ -125,7 +125,7 @@ class AddExpense extends React.Component {
       whoPaidText: "Paid by YOU and split EQUALLY",
       multiplePeople: false,
       defaultPayerState: true,
-      defaultSplitState:true,
+      defaultSplitState: true,
 
       currentExpense: {
         description: "",
@@ -170,7 +170,10 @@ class AddExpense extends React.Component {
     });
   };
   togglePerPersonShareDialog = () => {
-    this.setState({ perPersonShareDialog: !this.state.perPersonShareDialog, defaultSplitState:false });
+    this.setState({
+      perPersonShareDialog: !this.state.perPersonShareDialog,
+      defaultSplitState: false,
+    });
   };
 
   handleContributors = (e, users) => {
@@ -210,31 +213,25 @@ class AddExpense extends React.Component {
   handleAmount = (e) => {
     let { currentExpense, defaultPayerState, defaultSplitState } = this.state;
     let expenseAmount = parseFloat(e.target.value);
+    let contributors = [...currentExpense.contributors];
+    console.log(defaultPayerState);
     if (defaultPayerState) {
-      let contributors = currentExpense.contributors.map((user) => {
+      contributors = contributors.map((user) => {
         return user.id === "abcd"
           ? { ...user, amountPaid: expenseAmount }
           : { ...user };
       });
-      this.setState({
-        currentExpense: { ...currentExpense, contributors, expenseAmount },
-      });
-    } 
-    if(defaultSplitState) {
-     let expenseShare = expenseAmount/(currentExpense.contributors.length)
-      let contributors = currentExpense.contributors.map((user) => {
-        return {...user, expenseShare}
-      });
-      console.log(contributors)
-      this.setState({
-        currentExpense: { ...currentExpense, contributors, expenseAmount },
+    }
+    if (defaultSplitState) {
+      let expenseShare = expenseAmount / currentExpense.contributors.length;
+      contributors = contributors.map((user) => {
+        return { ...user, expenseShare };
       });
     }
-    else {
-      this.setState({
-        currentExpense: { ...currentExpense, expenseAmount },
-      });
-    }
+    console.log(contributors);
+    this.setState({
+      currentExpense: { ...currentExpense, expenseAmount, contributors },
+    });
   };
 
   handlePayer = (payer) => {
@@ -281,21 +278,23 @@ class AddExpense extends React.Component {
   };
   handleExpensePaidShare = (contributors) => {
     this.setState({
-      currentExpense: {...this.state.currentExpense, contributors},
-      AmountPaidByPerPersonDialog:!this.state.AmountPaidByPerPersonDialog,
-      choosePayerDialog: !this.state.choosePayerDialog
-    })
+      currentExpense: { ...this.state.currentExpense, contributors },
+      AmountPaidByPerPersonDialog: !this.state.AmountPaidByPerPersonDialog,
+      choosePayerDialog: !this.state.choosePayerDialog,
+    });
   };
   handleSplit = (contributors) => {
     this.setState({
-      currentExpense:{...this.state.currentExpense, contributors}
-    })
+      currentExpense: { ...this.state.currentExpense, contributors },
+    });
   };
   handleExpenseSharing = (e) => {
-    e.preventDefault()
-    const updatedContributors = this.state.currentExpense.contributors.map((user) => {
-      return { ...user, amountUserOwes: user.expenseShare - user.amountPaid };
-    });
+    e.preventDefault();
+    const updatedContributors = this.state.currentExpense.contributors.map(
+      (user) => {
+        return { ...user, amountUserOwes: user.expenseShare - user.amountPaid };
+      }
+    );
     let contIncOrder = updatedContributors
       .slice(1)
       .sort((a, b) => a.amountUserOwes - b.amountUserOwes);
@@ -325,8 +324,8 @@ class AddExpense extends React.Component {
         }
       });
     }
-    console.log(balanceSheet)
-  }
+    console.log(balanceSheet);
+  };
   render() {
     const { classes, addExpenseDialog } = this.props;
     const {
