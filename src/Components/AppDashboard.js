@@ -345,7 +345,16 @@ export default class AppDashboard extends React.Component {
     .push()
   }
 
-  // balanceSheetDb = []
+/*
+
+  balanceSheetDb = {
+  "-MT0eTuHDa_dzmMtmMUv": -10,
+}
+  balanceSheetNew = {
+  "-MT0eTuHDa_dzmMtmMUv": 150,
+  "-MT0eTuTUVa6dc4-hv14": 150
+}
+*/   
 
   render() {
     return (
